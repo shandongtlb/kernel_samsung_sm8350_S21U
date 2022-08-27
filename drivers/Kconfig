@@ -275,4 +275,8 @@ source "drivers/battery/common/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SU
 source "drivers/input/sec_input/slsi/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/usb/typec/maxim/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/sensors/vl53l5/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
+source "techpack/datarmnet/Kconfig"
+
+source "techpack/datarmnet-ext/Kconfig"
+
 endmenu

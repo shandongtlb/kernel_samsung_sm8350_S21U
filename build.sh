@@ -12,7 +12,7 @@ export PATH=${CLANG_PATH}:${PATH}
 
 make -j16 -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV CROSS_COMPILE=$BUILD_CROSS_COMPILE CLANG_TRIPLE=$CLANG_TRIPLE \
     CC=clang LD=ld.lld \
-    vendor/p3q_chn_openx_defconfig
+    vendor/kali_defconfig
 
 make -j16 -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV CROSS_COMPILE=$BUILD_CROSS_COMPILE CLANG_TRIPLE=$CLANG_TRIPLE \
     CC=clang LD=ld.lld \

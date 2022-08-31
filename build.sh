@@ -2,8 +2,8 @@
 
 mkdir out
 
-BUILD_CROSS_COMPILE=/root/Clang-11/gcc/bin/aarch64-linux-android-
-CLANG_PATH=/root/Clang-11/bin
+BUILD_CROSS_COMPILE=/root/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+CLANG_PATH=/root/llvm-arm-toolchain-ship-10.0/bin
 CLANG_TRIPLE=aarch64-linux-gnu-
 KERNEL_MAKE_ENV="DTC_EXT=$(pwd)/tools/dtc CONFIG_BUILD_ARM64_DT_OVERLAY=y"
 

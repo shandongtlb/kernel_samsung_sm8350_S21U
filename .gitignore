@@ -149,3 +149,4 @@ x509.genkey
 
 build.sh
 kernel.log
+scripts/crypto/__pycache__/

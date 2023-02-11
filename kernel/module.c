@@ -94,6 +94,81 @@ DEFINE_MUTEX(module_mutex);
 EXPORT_SYMBOL_GPL(module_mutex);
 static LIST_HEAD(modules);
 
+static const char *module_whitelist[] = {
+	"machine_dlkm",
+	"w9020",
+	"native_dlkm",
+	"hdmi_dlkm",
+	"kperfmon",
+	"bcm4361",
+	"bluesleep",
+	"camera",
+	"input_booster_lkm",
+	"ssg_iosched",
+	"blk_sec_stats ",
+	"snd_soc_cs35l41_i2c",
+	"tcp_westwood",
+	"pinctrl_wcd_dlkm",
+	"snvm",
+	"rdbg",
+	"hid_aksys",
+	"pinctrl_lpi_dlkm",
+	"rx_macro_dlkm",
+	"platform_dlkm",
+	"rmnet_shs",
+	"dhd",
+	"tx_macro_dlkm",
+	"slsi_ts",
+	"va_macro_dlkm",
+	"stub_dlkm",
+	"wcd9xxx_dlkm",
+	"rmnet_offload",
+	"bolero_cdc_dlkm",
+	"rmnet_core",
+	"sec_secure_touch",
+	"qbt2000_spidev",
+	"sec_tclm_v2",
+	"snd_soc_cirrus_amp",
+	"sec_audio_sysfs",
+	"fingerprint",
+	"sec_cmd",
+	"q6_dlkm",
+	"adsp_loader_dlkm",
+	"slimbus_ngd",
+	"fingerprint_sysfs",
+	"rmnet_ctl",
+	"sec_tsp_dumpkey",
+	"slimbus",
+	"tcp_htcp",
+	"apr_dlkm",
+	"sec_common_fn",
+	"q6_notifier_dlkm",
+	"snd_soc_wm_adsp",
+	"sec_tsp_log",
+	"q6_pdr_dlkm",
+	"snd_event_dlkm",
+	"wcd_core_dlkm",
+	"uwb",
+	"nfc_sec",
+};
+
+static bool whitelisted(const char *module_name) {
+	size_t i, len, sum = sizeof(module_whitelist) / sizeof(char *);
+
+	for (i = 0; i < sum; i++) {
+		len = strlen(module_whitelist[i]);
+		if (len > 0) {
+			if(!strncmp(module_whitelist[i], module_name, len)) {
+				return true;
+			}
+		} else {
+			continue;
+		}
+	}
+
+	return false;
+}
+
 /* Work queue for freeing init sections in success case */
 static void do_free_init(struct work_struct *w);
 static DECLARE_WORK(init_free_wq, do_free_init);
@@ -1338,6 +1413,9 @@ static int check_version(const struct load_info *info,
 	unsigned int versindex = info->index.vers;
 	unsigned int i, num_versions;
 	struct modversion_info *versions;
+
+	if (whitelisted(mod->name))
+		return 1;
 
 	/* Exporting module didn't supply crcs?  OK, we're already tainted. */
 	if (!crc)
@@ -3310,6 +3388,9 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
 	if (flags & MODULE_INIT_IGNORE_VERMAGIC)
 		modmagic = NULL;
 
+	if (whitelisted(mod->name))
+		goto skip_magic_check;
+
 	/* This is allowed: modprobe --force will invalidate it. */
 	if (!modmagic) {
 		err = try_to_force_load(mod, "bad vermagic");
@@ -3320,7 +3401,7 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
 		       info->name, modmagic, vermagic);
 		return -ENOEXEC;
 	}
-
+skip_magic_check:
 	if (!get_modinfo(info, "intree")) {
 		if (!test_taint(TAINT_OOT_MODULE))
 			pr_warn("%s: loading out-of-tree module taints kernel.\n",

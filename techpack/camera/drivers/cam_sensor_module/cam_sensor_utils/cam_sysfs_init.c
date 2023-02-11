@@ -4811,7 +4811,7 @@ int cam_sysfs_init_module(void)
 {
 	int ret = 0;
 
-	svc_cheating_prevent_device_file_create();
+	//svc_cheating_prevent_device_file_create();
 
 	if (camera_class == NULL) {
 		camera_class = class_create(THIS_MODULE, "camera");

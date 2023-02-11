@@ -238,6 +238,10 @@ source "drivers/adsp_factory/Kconfig"
 
 source "drivers/spu_verify/Kconfig"
 
+source "techpack/datarmnet/Kconfig"
+
+source "techpack/datarmnet-ext/Kconfig"
+
 source "drivers/regulator/pmic_class/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/security/samsung/icdrv/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/misc/drb/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
